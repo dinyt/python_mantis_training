@@ -1,4 +1,5 @@
 from fixture.application import Application
+from fixture.db import DbFixture
 import pytest
 import json
 import os.path
@@ -41,3 +42,13 @@ def stop(request):
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--target", action="store", default="target.json")
+
+@pytest.fixture(scope="session")
+def db(request):
+    db_config = load_config(request.config.getoption("--target"))["db"]
+    dbfixture = DbFixture(host=db_config["host"], name=db_config["name"], user=db_config["user"],
+                          password=db_config["password"])
+    def fin():
+        dbfixture.destroy()
+    request.addfinalizer(fin)
+    return dbfixture
