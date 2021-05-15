@@ -5,11 +5,5 @@
   "webadmin": {
     "username": "administrator",
     "password": "root"
-  },
-  "db": {
-    "host": "localhost",
-    "name": "bugtracker",
-    "user": "root",
-    "password": ""
   }
 }
